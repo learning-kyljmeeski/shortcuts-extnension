@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Shortcuts for Transcribers",
+  "version": "1.0",
+  "description": "Shortcuts for Transcribers",
+  "permissions": ["activeTab"],
+  "action": {
+    "default_icon": "icon.png"
+  },
+  "commands": {
+    "sendBad": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
+      },
+      "description": "Run \"sendBad\" on the current page."
+    },
+    "toggleAudio": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Toggle audio and focus on textarea."
+    },
+    "rewindAudio": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Comma",
+        "mac": "Command+Shift+Comma"
+      },
+      "description": "Rewind audio by 1 second."
+    },
+    "forwardAudio": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Period",
+        "mac": "Command+Shift+Period"
+      },
+      "description": "Forward audio by 1 second."
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ], 
+  "background": {
+    "service_worker": "background.js"
+  }
+}
