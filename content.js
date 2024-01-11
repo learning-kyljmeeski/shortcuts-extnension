@@ -1,63 +1,79 @@
-badButtonSelector = "button.btn.btn-outline-danger";
-audioSelector = "audio";
+// content.js
+let rewindInterval = 1; // Default value
 
-function setFocusOnTextarea() {
-  var textarea = document.querySelector('textarea');
-  if (textarea) {
-    textarea.focus();
-  }
-}
+// Read rewindInterval from Chrome storage
+chrome.storage.sync.get(['rewindInterval'], function(result) {
+  rewindInterval = result.rewindInterval || rewindInterval;
 
-function sendBad() {
-  var button = document.querySelector(badButtonSelector);
-  button.click();
-}
+  // Call your main function after setting the rewindInterval
+  mainFunction();
+});
 
-function toggleAudio() {
-  var audio = document.querySelector(audioSelector);
-  if (audio) {
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
+function mainFunction() {
+  badButtonSelector = "button.btn.btn-outline-danger";
+  audioSelector = "audio";
+
+  function setFocusOnTextarea() {
+    var textarea = document.querySelector('textarea');
+    if (textarea) {
+      textarea.focus();
     }
   }
 
-  setFocusOnTextarea();
-}
-
-function rewindAudio() {
-  var audio = document.querySelector(audioSelector);
-  if (audio) {
-      audio.currentTime -= 1;
+  function sendBad() {
+    var button = document.querySelector(badButtonSelector);
+    button.click();
   }
-}
 
-function forwardAudio() {
-  var audio = document.querySelector(audioSelector);
-  if (audio) {
-      audio.currentTime += 1;
+  function toggleAudio() {
+    var audio = document.querySelector(audioSelector);
+    if (audio) {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+
+    setFocusOnTextarea();
   }
-}
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  switch (request.command) {
-    case "sendBad":
-      sendBad();
+  function rewindAudio() {
+    var audio = document.querySelector(audioSelector);
+    if (audio) {
+      audio.currentTime -= rewindInterval;
+    }
+  }
+
+  function forwardAudio() {
+    var audio = document.querySelector(audioSelector);
+    if (audio) {
+      audio.currentTime += rewindInterval;
+    }
+  }
+
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    switch (request.command) {
+      case "updateRewindInterval":
+        rewindInterval = request.rewindInterval;
       break;
-    case "toggleAudio":
-      toggleAudio();
-      break;
-    case "rewindAudio":
+      case "sendBad":
+        sendBad();
+        break;
+      case "toggleAudio":
+        toggleAudio();
+        break;
+      case "rewindAudio":
         rewindAudio();
         break;
-    case "forwardAudio":
+      case "forwardAudio":
         forwardAudio();
         break;
-    default:
-      console.log(`Command ${request.command} not found`);
-  }
-});
+      default:
+        console.log(`Command ${request.command} not found`);
+    }
+  });
 
-setFocusOnTextarea();
-toggleAudio();
+  setFocusOnTextarea();
+  toggleAudio();
+}

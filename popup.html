@@ -1,0 +1,60 @@
+<!-- popup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shortcuts. Extension | Settings</title>
+  <style>
+    body {
+        min-width: 200px;
+      font-family: 'Arial', sans-serif;
+      padding: 10px;
+      text-align: center;
+      max-width: 300px;
+      margin: auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      text-align: left; /* Выравнивание текста слева */
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box; /* Учтите ширину и отступы внутри элемента */
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .warning-message {
+      color: red;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+  <script src="popup.js" defer></script>
+</head>
+<body>
+  <label for="rewindInput">Установить интервал перемотки (секунды):</label>
+  <input type="number" id="rewindInput" min="1" />
+  <button id="setRewindButton">Set</button>
+
+  <!-- Warning message for page reload -->
+  <p class="warning-message">Примечание: Изменения вступят в силу после перезагрузки страницы.</p>
+</body>
+</html>
